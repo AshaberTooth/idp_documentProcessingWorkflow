@@ -6,3 +6,4 @@ azure-core
 azure-ai-documentintelligence
 azure-ai-projects
 openAI
+gunicorn
