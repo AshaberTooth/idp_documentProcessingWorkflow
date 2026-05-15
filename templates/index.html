@@ -2,156 +2,218 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Intelligent Document Processing</title>
+    <title>KataruCorp - Intelligent Document Processing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f3f4f6;
-            color: #111827;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #071a2f;
+            color: #ffffff;
+        }
+
+        /* Top Navigation */
+        .topbar {
+            width: 100%;
+            background: #02101f;
+            border-bottom: 2px solid #0a4c86;
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+        }
+
+        .brand {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .brand span {
+            color: #3ba4ff;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 32px auto;
-            background: #ffffff;
-            border-radius: 18px;
-            padding: 36px;
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+            max-width: 1250px;
+            margin: 40px auto;
+            background: #0d223a;
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid #163d66;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
         }
 
         h1 {
-            font-size: 36px;
+            font-size: 40px;
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        h2 {
+            color: #ffffff;
+            border-left: 5px solid #1d8fff;
+            padding-left: 14px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #d8eaff;
         }
 
         .subtitle {
-            color: #6b7280;
-            margin-bottom: 32px;
-            font-size: 16px;
+            color: #b7cbe3;
+            margin-bottom: 34px;
+            font-size: 17px;
+            line-height: 1.6;
         }
 
         .section {
-            margin-top: 28px;
+            margin-top: 32px;
         }
 
         .card {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 22px;
-            margin-top: 16px;
+            background: #112b47;
+            border: 1px solid #204c7a;
+            border-radius: 16px;
+            padding: 26px;
+            margin-top: 18px;
         }
 
         label {
             font-weight: 600;
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            color: #ffffff;
         }
 
         input[type="file"] {
             margin-top: 8px;
-            margin-bottom: 18px;
+            margin-bottom: 22px;
             font-size: 15px;
+            color: #ffffff;
         }
 
         input[type="text"],
         textarea {
             width: 100%;
-            box-sizing: border-box;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            padding: 12px;
+            background: #0b1c2f;
+            color: #ffffff;
+            border: 1px solid #355b84;
+            border-radius: 12px;
+            padding: 14px;
             font-size: 15px;
-            font-family: Arial, sans-serif;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        textarea::placeholder {
+            color: #9bb5cf;
         }
 
         textarea {
-            min-height: 90px;
+            min-height: 110px;
             resize: vertical;
         }
 
         button {
-            background: #2563eb;
+            background: linear-gradient(135deg, #0072ce, #0059a8);
             color: #ffffff;
             border: none;
-            border-radius: 10px;
-            padding: 12px 20px;
+            border-radius: 12px;
+            padding: 14px 24px;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 14px rgba(0, 114, 206, 0.35);
         }
 
         button:hover {
-            background: #1d4ed8;
+            transform: translateY(-1px);
+            background: linear-gradient(135deg, #1b8fff, #0064c2);
         }
 
         .secondary-button {
-            background: #374151;
+            background: linear-gradient(135deg, #163b61, #0f2a47);
         }
 
         .secondary-button:hover {
-            background: #1f2937;
+            background: linear-gradient(135deg, #21598f, #163b61);
         }
 
         .error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-            padding: 16px;
-            border-radius: 12px;
+            background: rgba(220, 38, 38, 0.15);
+            color: #ffb4b4;
+            border: 1px solid rgba(255, 99, 99, 0.35);
+            padding: 18px;
+            border-radius: 14px;
             margin-top: 20px;
             white-space: pre-wrap;
         }
 
         .success {
-            background: #dcfce7;
-            color: #166534;
-            border: 1px solid #bbf7d0;
-            padding: 14px;
-            border-radius: 12px;
+            background: rgba(34, 197, 94, 0.15);
+            color: #bbf7d0;
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            padding: 16px;
+            border-radius: 14px;
             margin-top: 20px;
         }
 
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 22px;
-            margin-top: 20px;
+            gap: 24px;
+            margin-top: 22px;
         }
 
         pre {
-            background: #111827;
-            color: #f9fafb;
-            padding: 16px;
-            border-radius: 12px;
+            background: #07131f;
+            color: #d9ecff;
+            padding: 18px;
+            border-radius: 14px;
             overflow-x: auto;
             white-space: pre-wrap;
-            max-height: 460px;
+            max-height: 500px;
             font-size: 14px;
+            border: 1px solid #22486f;
         }
 
         .summary-box,
         .answer-box {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            padding: 16px;
-            border-radius: 12px;
+            background: #0c1c2d;
+            border: 1px solid #29507a;
+            padding: 20px;
+            border-radius: 14px;
             white-space: pre-wrap;
-            line-height: 1.55;
+            line-height: 1.7;
+            color: #f2f7ff;
         }
 
         .filename {
             font-size: 14px;
-            color: #374151;
-            margin-top: 12px;
+            color: #9ec7ef;
+            margin-top: 14px;
         }
 
         .hidden-textarea {
             display: none;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #88a7c6;
+            font-size: 13px;
+            padding-top: 20px;
+            border-top: 1px solid #1e456d;
         }
 
         @media (max-width: 900px) {
@@ -160,30 +222,51 @@
             }
 
             .container {
-                margin: 12px;
-                padding: 22px;
+                margin: 16px;
+                padding: 24px;
             }
 
             h1 {
-                font-size: 28px;
+                font-size: 30px;
+            }
+
+            .topbar {
+                padding: 16px 20px;
+            }
+
+            .brand {
+                font-size: 24px;
             }
         }
     </style>
 </head>
 
 <body>
+
+    <!-- Header -->
+    <div class="topbar">
+        <div class="brand">
+            Kataru<span>Corp</span>
+        </div>
+    </div>
+
     <div class="container">
+
         <h1>Intelligent Document Processing</h1>
+
         <div class="subtitle">
-            Upload a PDF, JPG, JPEG, or PNG document. The app extracts content using Azure AI Document Intelligence and summarizes it using Azure AI Foundry.
+            Upload PDF, JPG, JPEG, or PNG documents and extract intelligent insights using
+            Azure AI Document Intelligence and Azure AI Foundry.
         </div>
 
+        <!-- Upload Section -->
         <div class="section">
             <h2>1. Upload Document</h2>
 
             <div class="card">
                 <form method="POST" action="/analyze" enctype="multipart/form-data">
-                    <label for="file">Upload document:</label>
+
+                    <label for="file">Select document</label>
 
                     <input
                         type="file"
@@ -195,38 +278,55 @@
 
                     <br>
 
-                    <button type="submit">Analyze and Summarize</button>
+                    <button type="submit">
+                        Analyze and Summarize
+                    </button>
+
                 </form>
 
                 {% if filename %}
                     <div class="filename">
-                        Processed file: <strong>{{ filename }}</strong>
+                        Processed file:
+                        <strong>{{ filename }}</strong>
                     </div>
                 {% endif %}
             </div>
         </div>
 
+        <!-- Error -->
         {% if error %}
             <div class="section">
                 <h2>Error</h2>
-                <div class="error">{{ error }}</div>
+
+                <div class="error">
+                    {{ error }}
+                </div>
             </div>
         {% endif %}
 
+        <!-- Summary -->
         {% if summary %}
             <div class="section">
-                <h2>2. Summary</h2>
-                <div class="summary-box">{{ summary }}</div>
+                <h2>2. AI Summary</h2>
+
+                <div class="summary-box">
+                    {{ summary }}
+                </div>
             </div>
         {% endif %}
 
+        <!-- QnA -->
         {% if extracted_text %}
             <div class="section">
                 <h2>3. Ask Questions</h2>
 
                 <div class="card">
+
                     <form method="POST" action="/ask">
-                        <label for="question">Ask a question about the uploaded document:</label>
+
+                        <label for="question">
+                            Ask questions about the uploaded document
+                        </label>
 
                         <textarea
                             id="question"
@@ -236,29 +336,39 @@
                         >{{ question if question else "" }}</textarea>
 
                         <textarea class="hidden-textarea" name="extracted_text">{{ extracted_text }}</textarea>
+
                         <textarea class="hidden-textarea" name="structured_json">{{ structured_json }}</textarea>
 
                         <br><br>
 
-                        <button type="submit" class="secondary-button">Ask Question</button>
+                        <button type="submit" class="secondary-button">
+                            Ask Question
+                        </button>
+
                     </form>
 
                     {% if answer %}
                         <h3>Answer</h3>
-                        <div class="answer-box">{{ answer }}</div>
+
+                        <div class="answer-box">
+                            {{ answer }}
+                        </div>
                     {% endif %}
                 </div>
             </div>
         {% endif %}
 
+        <!-- Extraction Details -->
         {% if structured_json or extracted_text %}
             <div class="section">
                 <h2>4. Extraction Details</h2>
 
                 <div class="grid">
+
                     {% if structured_json %}
                         <div>
                             <h3>Structured JSON</h3>
+
                             <pre>{{ structured_json }}</pre>
                         </div>
                     {% endif %}
@@ -266,12 +376,21 @@
                     {% if extracted_text %}
                         <div>
                             <h3>Extracted Text</h3>
+
                             <pre>{{ extracted_text }}</pre>
                         </div>
                     {% endif %}
+
                 </div>
             </div>
         {% endif %}
+
+        <div class="footer">
+            KataruCorp Intelligent Automation Platform |
+            Powered by Azure AI Foundry & Document Intelligence
+        </div>
+
     </div>
+
 </body>
 </html>
