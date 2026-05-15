@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intelligent Document Processing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 32px auto;
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 36px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 32px;
+            font-size: 16px;
+        }
+
+        .section {
+            margin-top: 28px;
+        }
+
+        .card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 22px;
+            margin-top: 16px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            margin-top: 8px;
+            margin-bottom: 18px;
+            font-size: 15px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        button {
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary-button {
+            background: #374151;
+        }
+
+        .secondary-button:hover {
+            background: #1f2937;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            padding: 14px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-top: 20px;
+        }
+
+        pre {
+            background: #111827;
+            color: #f9fafb;
+            padding: 16px;
+            border-radius: 12px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            max-height: 460px;
+            font-size: 14px;
+        }
+
+        .summary-box,
+        .answer-box {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            padding: 16px;
+            border-radius: 12px;
+            white-space: pre-wrap;
+            line-height: 1.55;
+        }
+
+        .filename {
+            font-size: 14px;
+            color: #374151;
+            margin-top: 12px;
+        }
+
+        .hidden-textarea {
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                margin: 12px;
+                padding: 22px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Intelligent Document Processing</h1>
+        <div class="subtitle">
+            Upload a PDF, JPG, JPEG, or PNG document. The app extracts content using Azure AI Document Intelligence and summarizes it using Azure AI Foundry.
+        </div>
+
+        <div class="section">
+            <h2>1. Upload Document</h2>
+
+            <div class="card">
+                <form method="POST" action="/analyze" enctype="multipart/form-data">
+                    <label for="file">Upload document:</label>
+
+                    <input
+                        type="file"
+                        id="file"
+                        name="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        required
+                    >
+
+                    <br>
+
+                    <button type="submit">Analyze and Summarize</button>
+                </form>
+
+                {% if filename %}
+                    <div class="filename">
+                        Processed file: <strong>{{ filename }}</strong>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if error %}
+            <div class="section">
+                <h2>Error</h2>
+                <div class="error">{{ error }}</div>
+            </div>
+        {% endif %}
+
+        {% if summary %}
+            <div class="section">
+                <h2>2. Summary</h2>
+                <div class="summary-box">{{ summary }}</div>
+            </div>
+        {% endif %}
+
+        {% if extracted_text %}
+            <div class="section">
+                <h2>3. Ask Questions</h2>
+
+                <div class="card">
+                    <form method="POST" action="/ask">
+                        <label for="question">Ask a question about the uploaded document:</label>
+
+                        <textarea
+                            id="question"
+                            name="question"
+                            placeholder="Example: What is the total amount? Who are the parties? What are the key dates?"
+                            required
+                        >{{ question if question else "" }}</textarea>
+
+                        <textarea class="hidden-textarea" name="extracted_text">{{ extracted_text }}</textarea>
+                        <textarea class="hidden-textarea" name="structured_json">{{ structured_json }}</textarea>
+
+                        <br><br>
+
+                        <button type="submit" class="secondary-button">Ask Question</button>
+                    </form>
+
+                    {% if answer %}
+                        <h3>Answer</h3>
+                        <div class="answer-box">{{ answer }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if structured_json or extracted_text %}
+            <div class="section">
+                <h2>4. Extraction Details</h2>
+
+                <div class="grid">
+                    {% if structured_json %}
+                        <div>
+                            <h3>Structured JSON</h3>
+                            <pre>{{ structured_json }}</pre>
+                        </div>
+                    {% endif %}
+
+                    {% if extracted_text %}
+                        <div>
+                            <h3>Extracted Text</h3>
+                            <pre>{{ extracted_text }}</pre>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+flask
+python-dotenv
+werkzeug
+azure-identity
+azure-core
+azure-ai-documentintelligence
+azure-ai-projects
+openAI
