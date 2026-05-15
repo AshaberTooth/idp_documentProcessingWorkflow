@@ -63,4 +63,4 @@ jobs:
         with:
           app-name: 'idp-documentProcessing'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_510F895961E9437EB8225E339BBBE6BD }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_432C782B10FE4F93A6E5B1DE4F8E2676 }}
